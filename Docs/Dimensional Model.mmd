@@ -1,0 +1,56 @@
+graph TD
+    %% Fact Tables
+    subgraph FactTables["📊 Fact Tables"]
+        FactReviews["🌟 fact_reviews<br/>------------------------<br/>🔑 review_id (PK)<br/>🔗 business_key (FK)<br/>🔗 user_key (FK)<br/>🔗 date_key (FK)<br/>📊 stars<br/>📊 useful_count<br/>📊 funny_count<br/>📊 cool_count<br/>📊 review_length<br/>🤖 sentiment_score<br/>🤖 sentiment_label<br/>📅 created_date"]
+        
+        FactCheckins["📍 fact_checkins<br/>------------------------<br/>🔑 checkin_id (PK)<br/>🔗 business_key (FK)<br/>🔗 date_key (FK)<br/>🔗 time_key (FK)<br/>📊 checkin_count<br/>📅 checkin_date"]
+        
+        FactBusinessStats["📈 fact_business_performance<br/>------------------------<br/>🔑 business_stat_id (PK)<br/>🔗 business_key (FK)<br/>🔗 date_key (FK)<br/>📊 avg_rating<br/>📊 total_reviews<br/>📊 total_checkins<br/>📊 review_velocity<br/>🤖 sentiment_trend<br/>📅 snapshot_date"]
+    end
+    
+    %% Dimension Tables
+    subgraph DimTables["📋 Dimension Tables"]
+        DimBusiness["🏢 dim_business<br/>------------------------<br/>🔑 business_key (PK)<br/>📝 business_id (Natural Key)<br/>📝 name<br/>📝 address<br/>📝 city<br/>📝 state<br/>📝 postal_code<br/>📝 latitude<br/>📝 longitude<br/>📝 phone<br/>📊 stars<br/>📊 review_count<br/>🔖 categories<br/>🕒 hours<br/>🏷️ attributes<br/>🟢 is_open<br/>📅 created_date<br/>📅 updated_date"]
+        
+        DimUser["👤 dim_user<br/>------------------------<br/>🔑 user_key (PK)<br/>📝 user_id (Natural Key)<br/>📝 name<br/>📊 review_count<br/>📊 useful<br/>📊 funny<br/>📊 cool<br/>📊 fans<br/>📊 avg_stars<br/>🏆 elite_years<br/>👥 friends_count<br/>🤖 user_segment<br/>📅 yelping_since<br/>📅 created_date<br/>📅 updated_date"]
+        
+        DimDate["📅 dim_date<br/>------------------------<br/>🔑 date_key (PK)<br/>📅 full_date<br/>📅 year<br/>📅 quarter<br/>📅 month<br/>📅 month_name<br/>📅 week<br/>📅 day<br/>📅 day_name<br/>📅 day_of_week<br/>🔖 is_weekend<br/>🔖 is_holiday<br/>🔖 fiscal_year<br/>🔖 fiscal_quarter"]
+        
+        DimTime["🕐 dim_time<br/>------------------------<br/>🔑 time_key (PK)<br/>🕐 hour<br/>🕐 minute<br/>🕐 time_period<br/>🔖 is_business_hours<br/>🔖 is_peak_hours"]
+        
+        DimCategory["🏷️ dim_category<br/>------------------------<br/>🔑 category_key (PK)<br/>📝 category_name<br/>📝 parent_category<br/>📝 category_level<br/>📝 category_path<br/>🔖 is_restaurant<br/>🔖 is_service<br/>🔖 is_retail"]
+        
+        DimLocation["🗺️ dim_location<br/>------------------------<br/>🔑 location_key (PK)<br/>📝 city<br/>📝 state<br/>📝 postal_code<br/>📝 region<br/>📝 country<br/>📊 population<br/>📊 median_income<br/>🌡️ climate_zone"]
+    end
+    
+    %% Relationships
+    FactReviews --> DimBusiness
+    FactReviews --> DimUser
+    FactReviews --> DimDate
+    
+    FactCheckins --> DimBusiness
+    FactCheckins --> DimDate
+    FactCheckins --> DimTime
+    
+    FactBusinessStats --> DimBusiness
+    FactBusinessStats --> DimDate
+    
+    DimBusiness --> DimLocation
+    DimBusiness --> DimCategory
+    
+    %% Bridge Tables (Many-to-Many)
+    subgraph BridgeTables["🌉 Bridge Tables"]
+        BridgeBusinessCategory["bridge_business_category<br/>------------------------<br/>🔗 business_key (FK)<br/>🔗 category_key (FK)<br/>📊 relevance_score"]
+    end
+    
+    DimBusiness --> BridgeBusinessCategory
+    BridgeBusinessCategory --> DimCategory
+    
+    %% Styling
+    classDef factStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px,color:#000
+    classDef dimStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    classDef bridgeStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    
+    class FactReviews,FactCheckins,FactBusinessStats factStyle
+    class DimBusiness,DimUser,DimDate,DimTime,DimCategory,DimLocation dimStyle
+    class BridgeBusinessCategory bridgeStyle

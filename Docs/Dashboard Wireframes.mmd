@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yelp Analytics Dashboard - Wireframes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .wireframe-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .wireframe {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .wireframe h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .header-section {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar {
+            background: #ecf0f1;
+            border: 1px dashed #bdc3c7;
+            padding: 15px;
+            border-radius: 5px;
+            width: 250px;
+            float: left;
+            margin-right: 20px;
+        }
+        .main-content {
+            background: #fff;
+            border: 1px dashed #bdc3c7;
+            padding: 20px;
+            border-radius: 5px;
+            margin-left: 270px;
+            min-height: 400px;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .chart-box {
+            background: #f8f9fa;
+            border: 1px dashed #6c757d;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            min-height: 200px;
+        }
+        .kpi-row {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .kpi-card {
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            flex: 1;
+            text-align: center;
+        }
+        .filter-section {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .table-placeholder {
+            background: #f8f9fa;
+            border: 1px dashed #6c757d;
+            padding: 30px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #007bff;
+        }
+        .clear {
+            clear: both;
+        }
+        .annotation {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wireframe-container">
+        <h1>🏗️ Yelp Analytics Dashboard - Wireframes</h1>
+        
+        <!-- Dashboard Overview -->
+        <div class="wireframe">
+            <h2>📊 Dashboard 1: Executive Overview</h2>
+            
+            <div class="header-section">
+                <div>
+                    <h3>🏢 Yelp Business Intelligence Dashboard</h3>
+                    <p>Real-time insights from Yelp dataset analysis</p>
+                </div>
+                <div>
+                    📅 Last Updated: Real-time | 🔄 Auto-refresh: 30min
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <h4>🎛️ Global Filters</h4>
+                <div class="filter-section">
+                    📅 Date Range<br>
+                    <small>[Date Picker Widget]</small>
+                </div>
+                <div class="filter-section">
+                    🗺️ Geographic Region<br>
+                    <small>[Multi-select Dropdown]</small>
+                </div>
+                <div class="filter-section">
+                    🏷️ Business Categories<br>
+                    <small>[Category Tree Select]</small>
+                </div>
+                <div class="filter-section">
+                    ⭐ Rating Range<br>
+                    <small>[Range Slider: 1-5 stars]</small>
+                </div>
+                <div class="filter-section">
+                    🤖 AI Insights<br>
+                    <small>[Toggle: Sentiment Analysis]</small>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <h3>🏢 Total Businesses</h3>
+                        <h2>150,346</h2>
+                        <div class="annotation">↗️ +2.3% vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>📝 Total Reviews</h3>
+                        <h2>6.9M</h2>
+                        <div class="annotation">↗️ +15.7% vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>⭐ Avg Rating</h3>
+                        <h2>3.68</h2>
+                        <div class="annotation">↗️ +0.12 vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>🤖 Sentiment Score</h3>
+                        <h2>72.4%</h2>
+                        <div class="annotation">↗️ +5.2% positive trend</div>
+                    </div>
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <h4>📈 Review Volume Trends</h4>
+                        <div class="annotation">[Time Series Chart - Reviews per day/week/month]</div>
+                        <div class="annotation">🤖 AI-powered anomaly detection</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🗺️ Geographic Distribution</h4>
+                        <div class="annotation">[Interactive Map - Business density by region]</div>
+                        <div class="annotation">Heat map with zoom capabilities</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🏷️ Top Business Categories</h4>
+                        <div class="annotation">[Horizontal Bar Chart - Categories by review count]</div>
+                        <div class="annotation">Clickable drill-down functionality</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>😊 Sentiment Analysis Overview</h4>
+                        <div class="annotation">[Donut Chart - Positive/Neutral/Negative sentiment distribution]</div>
+                        <div class="annotation">🤖 Powered by Vertex AI</div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <!-- Business Analytics Dashboard -->
+        <div class="wireframe">
+            <h2>🏢 Dashboard 2: Business Analytics Deep Dive</h2>
+            
+            <div class="nav-tabs">
+                <button class="tab active">🏢 Business Performance</button>
+                <button class="tab">📊 Rating Analysis</button>
+                <button class="tab">📍 Location Intelligence</button>
+                <button class="tab">🤖 AI Insights</button>
+            </div>
+            
+            <div class="main-content">
+                <div class="filter-section">
+                    <strong>🔍 Business Search & Filters:</strong>
+                    [Search Bar] | [Category Filter] | [Location Filter] | [Rating Range] | [Review Count Range]
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <h4>⭐ Rating Distribution</h4>
+                        <div class="annotation">[Histogram - Distribution of business ratings]</div>
+                        <div class="annotation">Interactive bins with hover details</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>📈 Business Growth Trends</h4>
+                        <div class="annotation">[Line Chart - New businesses over time]</div>
+                        <div class="annotation">Seasonal trend analysis</div>
+                    </div>
+                </div>
+                
+                <div class="table-placeholder">
+                    <h4>🏆 Top Performing Businesses</h4>
+                    <div class="annotation">[Sortable Data Table]</div>
+                    <div class="annotation">Columns: Business Name | Category | Location | Rating | Review Count | Sentiment Score | Growth Rate</div>
+                    <div class="annotation">🤖 AI-powered business recommendations</div>
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <h4>📊 Performance Correlation Matrix</h4>
+                        <div class="annotation">[Heatmap - Correlation between rating, review count, location, etc.]</div>
+                        <div class="annotation">🤖 Statistical insights</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🎯 Business Segmentation</h4>
+                        <div class="annotation">[Scatter Plot - Rating vs Review Count]</div>
+                        <div class="annotation">🤖 ML-powered clustering</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Behavior Dashboard -->
+        <div class="wireframe">
+            <h2>👥 Dashboard 3: User Behavior Analytics</h2>
+            
+            <div class="main-content">
+                <div class="kpi-row">
+                    <div class="kpi-card">
+                        <h3>👤 Active Users</h3>
+                        <h2>1.9M</h2>
+                        <div class="annotation">Users with recent activity</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>✍️ Avg Reviews/User</h3>
+                        <h2>23.4</h2>
+                        <div class="annotation">🤖 User engagement score</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>🏆 Elite Users</h3>
+                        <h2>58,234</h2>
+                        <div class="annotation">High-influence reviewers</div>
+                    </div>
+                    <div class="kpi-card">
+                        <h3>🤝 Avg Friends</h3>
+                        <h2>47.8</h2>
+                        <div class="annotation">Social network density</div>
+                    </div>
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <h4>📊 User Engagement Patterns</h4>
+                        <div class="annotation">[Line Chart - Review activity over time]</div>
+                        <div class="annotation">Weekly/monthly patterns</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🏆 Elite User Impact</h4>
+                        <div class="annotation">[Bar Chart - Elite vs Regular user influence]</div>
+                        <div class="annotation">Impact on business ratings</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🎯 User Segmentation</h4>
+                        <div class="annotation">[Pie Chart - User segments by activity level]</div>
+                        <div class="annotation">🤖 ML-based user clustering</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🌐 Social Network Analysis</h4>
+                        <div class="annotation">[Network Graph - User connections]</div>
+                        <div class="annotation">Friend network visualization</div>
+                    </div>
+                </div>
+                
+                <div class="table-placeholder">
+                    <h4>👑 Top Influencers</h4>
+                    <div class="annotation">[Data Table - Most influential users]</div>
+                    <div class="annotation">Columns: User | Reviews | Useful Votes | Fans | Elite Status | Influence Score</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI-Powered Insights Dashboard -->
+        <div class="wireframe">
+            <h2>🤖 Dashboard 4: AI-Powered Insights</h2>
+            
+            <div class="main-content">
+                <div class="filter-section">
+                    <strong>🤖 AI Model Selection:</strong>
+                    [Dropdown: Sentiment Analysis | Business Classification | Recommendation Engine | Trend Prediction]
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <h4>😊 Sentiment Analysis Trends</h4>
+                        <div class="annotation">[Area Chart - Sentiment over time]</div>
+                        <div class="annotation">🤖 Vertex AI sentiment classification</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🏷️ Auto-Generated Categories</h4>
+                        <div class="annotation">[Word Cloud - AI-discovered business categories]</div>
+                        <div class="annotation">🤖 Unsupervised learning insights</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>📈 Business Growth Predictions</h4>
+                        <div class="annotation">[Forecast Chart - Predicted trends]</div>
+                        <div class="annotation">🤖 Time series forecasting</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>🎯 Recommendation Accuracy</h4>
+                        <div class="annotation">[Gauge Chart - Model performance metrics]</div>
+                        <div class="annotation">🤖 AutoML model evaluation</div>
+                    </div>
+                </div>
+                
+                <div class="table-placeholder">
+                    <h4>🔍 AI-Generated Insights</h4>
+                    <div class="annotation">[Dynamic Text Area - Natural language insights]</div>
+                    <div class="annotation">🤖 "Businesses in the Restaurant category show 15% higher sentiment scores on weekends..."</div>
+                    <div class="annotation">🤖 "Anomaly detected: Unusual spike in negative reviews for Entertainment venues on 2024-03-15"</div>
+                </div>
+                
+                <div class="chart-box">
+                    <h4>🔮 Predictive Analytics</h4>
+                    <div class="annotation">[Interactive Dashboard - What-if scenarios]</div>
+                    <div class="annotation">🤖 "If a restaurant improves rating by 0.5 stars, predicted review increase: 23%"</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Notes -->
+        <div class="wireframe">
+            <h2>⚙️ Technical Implementation Notes</h2>
+            <div class="main-content">
+                <h4>🛠️ Streamlit Components to Use:</h4>
+                <ul>
+                    <li><strong>st.sidebar:</strong> For global filters and navigation</li>
+                    <li><strong>st.columns:</strong> For KPI cards and chart grids</li>
+                    <li><strong>st.plotly_chart:</strong> For interactive charts (Plotly)</li>
+                    <li><strong>st.map:</strong> For geographic visualizations</li>
+                    <li><strong>st.dataframe:</strong> For sortable/filterable tables</li>
+                    <li><strong>st.tabs:</strong> For multi-tab dashboards</li>
+                    <li><strong>st.metric:</strong> For KPI displays with delta indicators</li>
+                    <li><strong>st.cache_data:</strong> For BigQuery result caching</li>
+                </ul>
+                
+                <h4>🔌 Data Integration:</h4>
+                <ul>
+                    <li><strong>BigQuery Integration:</strong> Use google-cloud-bigquery library</li>
+                    <li><strong>Real-time Updates:</strong> st.rerun() with timer for auto-refresh</li>
+                    <li><strong>AI Model Integration:</strong> Vertex AI SDK for sentiment analysis</li>
+                    <li><strong>Performance:</strong> Implement pagination for large datasets</li>
+                </ul>
+                
+                <h4>🎨 Styling & UX:</h4>
+                <ul>
+                    <li><strong>Theme:</strong> Custom CSS for Yelp brand colors</li>
+                    <li><strong>Responsive:</strong> Mobile-friendly layouts</li>
+                    <li><strong>Loading States:</strong> Progress bars for long-running queries</li>
+                    <li><strong>Error Handling:</strong> Graceful degradation for data issues</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

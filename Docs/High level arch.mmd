@@ -1,0 +1,95 @@
+graph TD
+    %% Data Sources
+    YelpAPI[Yelp Public Dataset<br/>JSON Files]
+    
+    %% Data Lake Layer (Bronze)
+    subgraph GCS_Bronze["🏗️ Data Lake - Bronze Layer (GCS)"]
+        RawBusiness[Raw Business Data<br/>JSON/Parquet]
+        RawReviews[Raw Reviews Data<br/>JSON/Parquet]
+        RawUsers[Raw Users Data<br/>JSON/Parquet]
+        RawCheckins[Raw Check-ins Data<br/>JSON/Parquet]
+    end
+    
+    %% Processing Layer
+    subgraph Dataproc["⚙️ Dataproc Cluster (Spark)"]
+        SparkJobs[Spark ETL Jobs<br/>- Data Validation<br/>- Cleansing<br/>- Transformation]
+    end
+    
+    %% Data Lake Silver Layer
+    subgraph GCS_Silver["🥈 Data Lake - Silver Layer (GCS)"]
+        CleanBusiness[Cleaned Business Data<br/>Parquet]
+        CleanReviews[Cleaned Reviews Data<br/>Parquet]
+        CleanUsers[Cleaned Users Data<br/>Parquet]
+        EnrichedData[Enriched & Joined Data<br/>Parquet]
+    end
+    
+    %% Data Lake Gold Layer
+    subgraph GCS_Gold["🥇 Data Lake - Gold Layer (GCS)"]
+        AggBusiness[Business Aggregates<br/>Parquet]
+        AggReviews[Review Analytics<br/>Parquet]
+        UserSegments[User Segments<br/>Parquet]
+    end
+    
+    %% Data Warehouse
+    subgraph BigQuery["📊 BigQuery Data Warehouse"]
+        DimTables[Dimension Tables<br/>- dim_business<br/>- dim_user<br/>- dim_date<br/>- dim_category]
+        FactTables[Fact Tables<br/>- fact_reviews<br/>- fact_checkins<br/>- fact_business_stats]
+        DataMarts[Data Marts<br/>- Business Analytics<br/>- User Behavior<br/>- Review Sentiment]
+    end
+    
+    %% Orchestration
+    subgraph Composer["🎼 Cloud Composer (Airflow)"]
+        DAG1[Daily ETL Pipeline<br/>Bronze → Silver → Gold]
+        DAG2[Data Warehouse Load<br/>Gold → BigQuery]
+        DAG3[Data Quality Checks<br/>& Alerts]
+    end
+    
+    %% AI/ML Enhancement
+    subgraph AI_Tools["🤖 AI-Powered Features"]
+        VertexAI[Vertex AI<br/>- Sentiment Analysis<br/>- Review Classification<br/>- Business Categorization]
+        AutoML[AutoML Tables<br/>- Recommendation Engine<br/>- Churn Prediction]
+    end
+    
+    %% BI & Visualization
+    subgraph BI["📈 Business Intelligence"]
+        Streamlit[Streamlit Dashboard<br/>- Business Insights<br/>- Review Analytics<br/>- User Behavior]
+        Reports[Automated Reports<br/>- Daily KPIs<br/>- Weekly Trends]
+    end
+    
+    %% Data Flow
+    YelpAPI --> GCS_Bronze
+    GCS_Bronze --> SparkJobs
+    SparkJobs --> GCS_Silver
+    GCS_Silver --> SparkJobs
+    SparkJobs --> GCS_Gold
+    GCS_Gold --> BigQuery
+    
+    %% AI Integration
+    GCS_Silver --> VertexAI
+    VertexAI --> GCS_Gold
+    BigQuery --> AutoML
+    AutoML --> DataMarts
+    
+    %% Orchestration Flow
+    Composer --> SparkJobs
+    Composer --> BigQuery
+    Composer --> VertexAI
+    
+    %% BI Flow
+    BigQuery --> Streamlit
+    DataMarts --> Reports
+    
+    %% Styling
+    classDef gcsStyle fill:#4285f4,stroke:#1a73e8,color:#fff
+    classDef sparkStyle fill:#e8710a,stroke:#d56e0c,color:#fff
+    classDef bqStyle fill:#669df6,stroke:#4285f4,color:#fff
+    classDef aiStyle fill:#34a853,stroke:#137333,color:#fff
+    classDef orchestrationStyle fill:#ea4335,stroke:#d33b2c,color:#fff
+    classDef biStyle fill:#fbbc04,stroke:#f9ab00,color:#000
+    
+    class GCS_Bronze,GCS_Silver,GCS_Gold gcsStyle
+    class Dataproc,SparkJobs sparkStyle
+    class BigQuery,DimTables,FactTables,DataMarts bqStyle
+    class AI_Tools,VertexAI,AutoML aiStyle
+    class Composer,DAG1,DAG2,DAG3 orchestrationStyle
+    class BI,Streamlit,Reports biStyle
