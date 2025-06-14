@@ -1,70 +1,82 @@
 # Yelp Analytics POC
 
-## Overview
-This project demonstrates the value of Yelp review data by building a cost-efficient, end-to-end batch analytics pipeline on Google Cloud Platform (GCS → Dataflow → BigQuery) and surfacing actionable insights via a Streamlit dashboard.
+A proof-of-concept project for analyzing Yelp data using Google Cloud Platform services.
 
-## Business Objective
-- Ingest and process Yelp business & review data
-- Transform data using a Medallion (Bronze/Silver/Gold) architecture
-- Store results in BigQuery (star schema)
-- Visualize insights (ratings, sentiment, trends) in Streamlit
+## Project Structure
 
-## Tech Stack
-- Google Cloud Storage (GCS)
-- Dataflow (Apache Beam)
-- BigQuery
-- Streamlit
-- Cloud Composer (Airflow)
-- Python 3.10+
-
-## Architecture
-- **Bronze Layer**: Raw ingestion from Yelp Open Dataset/API to GCS
-- **Silver Layer**: Cleaned, enriched data via Apache Beam on Dataflow
-- **Gold Layer**: Aggregated, analytics-ready tables in BigQuery (star schema)
-- **Dashboard**: Streamlit app for interactive insights
-
-## Directory Structure
 ```
-YELP-Analytics-POC/
-├── src/                  # Source code (ETL, utils, config)
-│   ├── bronze/           # Raw ingestion jobs
-│   ├── silver/           # Cleansing/enrichment jobs (Apache Beam)
-│   ├── gold/             # Aggregation jobs (Apache Beam)
-│   └── dashboard/        # Streamlit app
-├── data/                 # Local sample data (if any)
-├── notebooks/            # Jupyter/Colab notebooks
-├── tests/                # Pytest unit tests
-├── dags/                 # Airflow DAGs (Cloud Composer)
-├── config.py             # GCP/project config template
-├── requirements.txt      # Python dependencies
-├── .gitignore            # Git ignore rules
-├── README.md             # Project overview
-├── PROJECT_OBJECTIVE.md  # Project objective (from BRD)
-├── PROJECT_DESIGN.md     # Architecture/design doc
-├── TASKS.md              # Development checklist
-└── BRD.md                # Business Requirements Document
+.
+├── src/
+│   ├── spark/              # Spark processing jobs
+│   │   └── yelp_analytics.py
+│   └── dashboard/          # Streamlit dashboard
+│       └── app.py
+├── tests/                  # Unit tests
+├── docs/                   # Documentation
+├── .env                    # Environment variables (not in git)
+├── .gitignore             # Git ignore rules
+├── requirements.txt        # Python dependencies
+└── run_pipeline.sh        # Pipeline execution script
 ```
 
-## Setup & Usage
-1. Clone repo and install dependencies:
+## Setup
+
+1. **Environment Setup**
    ```bash
-   git clone <repo-url>
-   cd YELP-Analytics-POC
-   python3 -m venv venv && source venv/bin/activate
+   python -m venv yap-venv
+   source yap-venv/bin/activate
    pip install -r requirements.txt
    ```
-2. Configure GCP settings in `config.py`
-3. Run ETL jobs (see `src/bronze/`, `src/silver/`, `src/gold/`) using Apache Beam/Dataflow:
-   ```bash
-   python src/silver/clean_reviews.py --runner DataflowRunner --project <project-id> --region <region> --temp_location gs://<bucket>/temp
+
+2. **Google Cloud Setup**
+   - Create a service account and download the key
+   - Place the key file as `yelp-dataflow-sa-key.json` in the project root
+   - Enable required APIs:
+     - BigQuery
+     - Cloud Storage
+     - Dataproc
+     - Dataflow
+
+3. **Environment Variables**
+   Create a `.env` file with:
    ```
-4. Launch dashboard:
-   ```bash
-   streamlit run src/dashboard/app.py
+   PROJECT_ID=your-project-id
+   DATASET_ID=yelp_analytics
+   BUCKET_NAME=your-bucket-name
    ```
 
-## References
-- [Yelp Open Dataset](https://www.yelp.com/dataset)
-- [Google Cloud Dataflow](https://cloud.google.com/dataflow)
-- [BigQuery](https://cloud.google.com/bigquery)
-- [Streamlit](https://streamlit.io/)
+## Running the Pipeline
+
+1. **Data Processing**
+   ```bash
+   ./run_pipeline.sh
+   ```
+
+2. **Dashboard**
+   ```bash
+   cd src/dashboard
+   streamlit run app.py
+   ```
+
+## Project Status
+
+- ✅ Bronze Layer: Raw data ingestion
+- ✅ Silver Layer: Data cleaning and transformation
+- ✅ Gold Layer: Analytics-ready aggregations
+- ✅ Dashboard: Basic visualizations
+
+## Cost Management
+
+To avoid unnecessary costs:
+1. Delete temporary GCS buckets
+2. Delete Dataproc clusters when not in use
+3. Monitor BigQuery usage
+4. Use appropriate machine types
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request

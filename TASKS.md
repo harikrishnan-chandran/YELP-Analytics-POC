@@ -6,7 +6,7 @@
 - [ ] **Create a GCP project**  
   - Go to https://console.cloud.google.com/ and create a new project.
 - [ ] **Enable required APIs**  
-  - BigQuery, Dataflow, Cloud Storage, Composer, IAM.
+  - BigQuery, Dataproc, Cloud Storage, Composer, IAM.
 - [ ] **Create a GCS bucket for data**  
   - Example command (replace placeholders):  
     ```bash
@@ -51,31 +51,23 @@
 ### 6. Implement Apache Beam ETL for Silver layer (cleansing/enrichment)
 - [ ] **Write Apache Beam scripts in `src/silver/`**  
   - Example file: `src/silver/clean_reviews.py`
-- [ ] **Run on Dataflow**  
+- [ ] **Run on Dataproc**  
   - Example:
     ```bash
-    python src/silver/clean_reviews.py \
-      --runner DataflowRunner \
-      --project <project-id> \
-      --region <region> \
-      --temp_location gs://<bucket>/temp \
-      --input gs://<bucket>/bronze/yelp_academic_dataset_review.json \
-      --output gs://<bucket>/silver/clean_reviews.json
+    gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1 -- \
+      --input-bucket=gs://yelp-analytics-poc-data \
+      --output-bucket=gs://yelp-analytics-poc-dataproc/output
     ```
 
 ### 7. Implement Apache Beam ETL for Gold layer (aggregation/star schema)
 - [ ] **Write Apache Beam scripts in `src/gold/`**  
   - Example file: `src/gold/aggregate_reviews.py`
-- [ ] **Run on Dataflow**  
+- [ ] **Run on Dataproc**  
   - Example:
     ```bash
-    python src/gold/aggregate_reviews.py \
-      --runner DataflowRunner \
-      --project <project-id> \
-      --region <region> \
-      --temp_location gs://<bucket>/temp \
-      --input gs://<bucket>/silver/clean_reviews.json \
-      --output gs://<bucket>/gold/aggregated_reviews.json
+    gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1 -- \
+      --input-bucket=gs://yelp-analytics-poc-data \
+      --output-bucket=gs://yelp-analytics-poc-dataproc/output
     ```
 
 ### 8. Load Gold tables to BigQuery

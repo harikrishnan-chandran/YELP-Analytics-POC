@@ -33,7 +33,7 @@
 
 ### 1.1 Project Objective<a name="project-objective"></a>
 The purpose of this proof-of-concept is to **demonstrate the value of Yelp review data** by:
-- Building a **cost-efficient, end-to-end batch pipeline** on Google Cloud Platform (GCS → Dataflow → BigQuery).
+- Building a **cost-efficient, end-to-end batch pipeline** on Google Cloud Platform (GCS → Dataproc/Spark → BigQuery).
 - Surfacing **actionable insights** for Ratings, Sentiment, Geographic, and Trend analysis.
 - Producing a **simple Streamlit dashboard** for internal stakeholders.
 - Validating feasibility for a future production-grade solution.
@@ -43,7 +43,7 @@ The purpose of this proof-of-concept is to **demonstrate the value of Yelp revie
 | In Scope | Out of Scope |
 |----------|--------------|
 | Batch ingestion of Yelp Open Dataset or API subset | Real-time streaming |
-| Apache Beam ETL (Bronze → Gold) on Dataflow | Complex ML / predictive modelling |
+| Spark ETL (Bronze → Gold) on Dataproc | Complex ML / predictive modelling |
 | Storage in BigQuery (star schema) | External customer-facing app |
 | 2–3 Streamlit visualizations | Writeback to Yelp or internal systems |
 | Basic sentiment tagging (rule-based) | Advanced NLP or topic modelling |
@@ -65,7 +65,7 @@ The purpose of this proof-of-concept is to **demonstrate the value of Yelp revie
 ✔ Query latency in dashboard **< 5 s**  
 ✔ Secure access (IAM roles: BigQuery Data Editor, Storage Object Viewer)  
 ✔ Modular, documented Apache Beam codebase  
-✔ Use only low-cost GCP services; stop Dataflow jobs when idle
+✔ Use only low-cost GCP services; delete Dataproc clusters when idle
 
 ---
 
@@ -74,7 +74,7 @@ The purpose of this proof-of-concept is to **demonstrate the value of Yelp revie
 ### 3.1 Risks<a name="risks"></a>
 | Risk | Potential Impact | Mitigation |
 |------|-----------------|------------|
-| **Large dataset** | Slow jobs, higher cost | Use dataset subset; optimize Beam pipeline; tune Dataflow resources |
+| **Large dataset** | Slow jobs, higher cost | Use dataset subset; optimize Spark pipeline; tune Dataproc resources |
 | **Data quality** | Misleading insights | Clean data; exclude filtered/fake reviews |
 | **Scope creep** | Miss deadline | Lock scope; log changes (Section 4) |
 | **API limits** | Incomplete data | Fall back to static Open Dataset |
