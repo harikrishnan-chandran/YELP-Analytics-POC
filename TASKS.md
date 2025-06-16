@@ -3,26 +3,27 @@
 ## Core Tasks (with Detailed Steps & Commands)
 
 ### 1. Set up GCP project, IAM, and storage
-- [ ] **Create a GCP project**  
-  - Go to https://console.cloud.google.com/ and create a new project.
-- [ ] **Enable required APIs**  
-  - BigQuery, Dataproc, Cloud Storage, Composer, IAM.
-- [ ] **Create a GCS bucket for data**  
-  - Example command (replace placeholders):  
-    ```bash
-    gsutil mb -l us-central1 gs://<your-gcs-bucket>
-    ```
-- [ ] **Set up IAM roles**  
-  - Assign yourself and service accounts the roles:  
+- [x] **Create a GCP project**  
+  - Project ID: pivotal-rhino-462807-c1
+- [x] **Enable required APIs**  
+  - BigQuery, Dataproc, Cloud Storage, IAM
+- [x] **Create a GCS bucket for data**  
+  - Bucket: yelp-analytics-poc-data
+- [x] **Set up IAM roles**  
+  - Service account has roles:  
     - BigQuery Data Editor  
     - Storage Object Viewer
 
-### 2. Configure `config.py` with GCP settings
-- [x] `config.py` template exists.  
-- [ ] **Edit `config.py`** with your actual GCP project, bucket, dataset, and region.
+### 2. Configure environment variables
+- [x] **Create `.env` file** with:
+  ```
+  PROJECT_ID=pivotal-rhino-462807-c1
+  DATASET_ID=yelp_analytics
+  BUCKET_NAME=yelp-analytics-poc-data
+  ```
 
 ### 3. Create and activate Python virtual environment
-- [x] Virtual environment created (`yap-venv`).
+- [x] Virtual environment created (`yap-venv`)
 - [x] Activate with:
   ```bash
   source yap-venv/bin/activate
@@ -35,78 +36,60 @@
   ```
 
 ### 5. Ingest Yelp dataset to GCS (Bronze)
-- [ ] **Download Yelp Open Dataset**  
+- [x] **Download Yelp Open Dataset**  
   - https://www.yelp.com/dataset
-  - Example:
-    ```bash
-    wget https://.../yelp_dataset.tar
-    tar -xvf yelp_dataset.tar
-    ```
-- [ ] **Upload to GCS**  
-  - Example:
-    ```bash
-    gsutil cp yelp_academic_dataset_*.json gs://<your-gcs-bucket>/bronze/
-    ```
+- [x] **Upload to GCS**  
+  ```bash
+  gsutil cp yelp_academic_dataset_*.json gs://yelp-analytics-poc-data/bronze/
+  ```
 
-### 6. Implement Apache Beam ETL for Silver layer (cleansing/enrichment)
-- [ ] **Write Apache Beam scripts in `src/silver/`**  
-  - Example file: `src/silver/clean_reviews.py`
-- [ ] **Run on Dataproc**  
-  - Example:
-    ```bash
-    gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1 -- \
-      --input-bucket=gs://yelp-analytics-poc-data \
-      --output-bucket=gs://yelp-analytics-poc-dataproc/output
-    ```
+### 6. Implement Spark ETL for Silver layer (cleansing/enrichment)
+- [x] **Write Spark scripts in `src/spark/`**  
+  - File: `src/spark/yelp_analytics.py`
+- [x] **Run on Dataproc**  
+  ```bash
+  gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1
+  ```
 
-### 7. Implement Apache Beam ETL for Gold layer (aggregation/star schema)
-- [ ] **Write Apache Beam scripts in `src/gold/`**  
-  - Example file: `src/gold/aggregate_reviews.py`
-- [ ] **Run on Dataproc**  
-  - Example:
-    ```bash
-    gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1 -- \
-      --input-bucket=gs://yelp-analytics-poc-data \
-      --output-bucket=gs://yelp-analytics-poc-dataproc/output
-    ```
+### 7. Implement Spark ETL for Gold layer (aggregation/star schema)
+- [x] **Write Spark scripts in `src/spark/`**  
+  - File: `src/spark/yelp_analytics.py`
+- [x] **Run on Dataproc**  
+  ```bash
+  gcloud dataproc jobs submit pyspark src/spark/yelp_analytics.py --cluster=yelp-analytics-cluster --region=us-central1
+  ```
 
 ### 8. Load Gold tables to BigQuery
-- [ ] **Load processed data from GCS to BigQuery**  
-  - Example:
-    ```bash
-    bq load --autodetect --source_format=NEWLINE_DELIMITED_JSON <dataset>.<table> gs://<your-gcs-bucket>/gold/aggregated_reviews.json
-    ```
+- [x] **Load processed data from GCS to BigQuery**  
+  ```bash
+  bq load --autodetect --source_format=NEWLINE_DELIMITED_JSON yelp_analytics.<table> gs://yelp-analytics-poc-data/gold/<table>.json
+  ```
 
 ### 9. Build Streamlit dashboard (ratings, sentiment, trends)
-- [ ] **Develop dashboard in `src/dashboard/app.py`**
-- [ ] **Run locally:**
+- [x] **Develop dashboard in `src/dashboard/app.py`**
+- [x] **Run locally:**
   ```bash
   streamlit run src/dashboard/app.py
   ```
 
-### 10. Write Airflow DAGs for orchestration (Cloud Composer)
-- [ ] **Write DAGs in `dags/`**
-- [ ] **Deploy to Composer environment**  
-  - Example:
-    ```bash
-    gcloud composer environments storage dags import --environment <composer-env> --location <region> --source dags/
-    ```
-
-### 11. Add unit tests for ETL and dashboard
-- [ ] **Write tests in `tests/`** (mirroring `src/` structure)
-- [ ] **Run tests:**
+### 10. Add unit tests for ETL and dashboard
+- [x] **Write tests in `tests/`** (mirroring `src/` structure)
+- [x] **Run tests:**
   ```bash
   pytest
   ```
 
-### 12. Document code and update README
-- [x] Initial documentation and README created.
-- [ ] **Update as new features are added.**
+### 11. Document code and update README
+- [x] Initial documentation and README created
+- [x] Updated documentation to reflect current architecture
 
 ---
 
 ## Discovered During Work
-- [ ] (Add any new tasks here as you go)
+- [x] Migrated from Dataflow to Dataproc for better cost efficiency
+- [x] Consolidated requirements.txt files
+- [x] Removed unused files and configurations
+- [x] Updated pipeline scripts for Spark processing
 
 ---
 
@@ -114,4 +97,9 @@
 - [x] Create project folder structure
 - [x] Create and activate Python virtual environment
 - [x] Install all dependencies and update requirements.txt
-- [x] Create initial documentation: README.md, PROJECT_OBJECTIVE.md, PROJECT_DESIGN.md, config.py, .gitignore
+- [x] Create initial documentation
+- [x] Set up GCP project and IAM
+- [x] Implement Spark ETL pipeline
+- [x] Build Streamlit dashboard
+- [x] Write unit tests
+- [x] Update documentation

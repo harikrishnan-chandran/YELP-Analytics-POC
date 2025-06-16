@@ -1,6 +1,6 @@
 # Yelp Analytics POC
 
-A proof-of-concept project for analyzing Yelp data using Google Cloud Platform services.
+A proof-of-concept project for analyzing Yelp data using Google Cloud Platform services. This project demonstrates a cost-efficient data pipeline using Dataproc/Spark and a Streamlit dashboard for visualization.
 
 ## Project Structure
 
@@ -19,6 +19,14 @@ A proof-of-concept project for analyzing Yelp data using Google Cloud Platform s
 └── run_pipeline.sh        # Pipeline execution script
 ```
 
+## Architecture
+
+The project follows a Medallion architecture:
+1. **Bronze Layer**: Raw Yelp data in GCS
+2. **Silver Layer**: Cleaned and enriched data
+3. **Gold Layer**: Analytics-ready aggregations in BigQuery
+4. **Visualization**: Streamlit dashboard
+
 ## Setup
 
 1. **Environment Setup**
@@ -35,14 +43,13 @@ A proof-of-concept project for analyzing Yelp data using Google Cloud Platform s
      - BigQuery
      - Cloud Storage
      - Dataproc
-     - Dataflow
 
 3. **Environment Variables**
    Create a `.env` file with:
    ```
-   PROJECT_ID=your-project-id
+   PROJECT_ID=pivotal-rhino-462807-c1
    DATASET_ID=yelp_analytics
-   BUCKET_NAME=your-bucket-name
+   BUCKET_NAME=yelp-analytics-poc-data
    ```
 
 ## Running the Pipeline
@@ -51,19 +58,28 @@ A proof-of-concept project for analyzing Yelp data using Google Cloud Platform s
    ```bash
    ./run_pipeline.sh
    ```
+   This will:
+   - Process Yelp data using Spark on Dataproc
+   - Create BigQuery tables
+   - Generate analytics-ready data
 
 2. **Dashboard**
    ```bash
    cd src/dashboard
    streamlit run app.py
    ```
+   Features:
+   - Rating distribution
+   - Sentiment analysis
+   - Geographic trends
+   - Time-based trends
 
 ## Project Status
 
 - ✅ Bronze Layer: Raw data ingestion
 - ✅ Silver Layer: Data cleaning and transformation
 - ✅ Gold Layer: Analytics-ready aggregations
-- ✅ Dashboard: Basic visualizations
+- ✅ Dashboard: Interactive visualizations
 
 ## Cost Management
 
@@ -72,6 +88,13 @@ To avoid unnecessary costs:
 2. Delete Dataproc clusters when not in use
 3. Monitor BigQuery usage
 4. Use appropriate machine types
+
+## Documentation
+
+- `PROJECT_OBJECTIVE.md`: Project goals and constraints
+- `PROJECT_DESIGN.md`: Technical architecture and implementation
+- `BRD.md`: Business requirements and success metrics
+- `TASKS.md`: Development checklist and progress
 
 ## Contributing
 
